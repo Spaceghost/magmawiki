@@ -1,5 +1,12 @@
 module Captcha  
   class Recaptcha
+    # initializing the Recaptcha object accepts an +options+ hash.  All options
+    # can be overridden when calling any methods of Recaptcha.
+    # Options include:
+    # :enabled: enable or disable the Recaptcha object. (defaults to false)
+    # :public_key: public key for the Recaptcha API.  This is exposed to users in the JS.
+    # :private_key: private key for the Recaptcha API. This is required in verification.
+    # :environents: a hash of environments (defaults to :cucumber => false, :test => false).  If an environment is set to false, then any method calls are ignored when that environment is active.
     def initialize(options = {})
       @global_settings = {
                           :enabled          => false,
@@ -20,16 +27,13 @@ module Captcha
     
     def recaptcha_tags(options = {})
       output = ""
-      if self.enabled?
-        options = build_instance_options(options)
-        output = html_tags(options)
-      end
+      output = html_tags(build_instance_options(options)) if self.enabled?
       return output
     end
 
     def verify_recaptcha(options = {})
       if self.enabled?
-
+        
       else
         return true
       end
