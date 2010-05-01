@@ -1,4 +1,7 @@
-module Captcha  
+module Captcha
+  class Error < StandardError
+  end
+  
   class Recaptcha
     # initializing the Recaptcha object accepts an +options+ hash.  All options
     # can be overridden when calling any methods of Recaptcha.
@@ -25,9 +28,10 @@ module Captcha
       return @global_settings[:enabled]
     end
     
-    def recaptcha_tags(options = {})
+    def captcha_tags(options = {})
+      options = verify_options(options)
       output = ""
-      output = html_tags(build_instance_options(options)) if self.enabled?
+      output = html_tags(options) if self.enabled?
       return output
     end
 
@@ -40,7 +44,13 @@ module Captcha
     end
 
   private
-    def build_instance_options(options = {})
+    def verify_options(options)
+      _options = @global_settings.merge(options)
+      raise Captcha::Error, "Missing private key" if @global_settings[:private_key].nil?
+      raise Captcha::Error, "Missing public key" if @global_settings[:public_key].nil?
+    end
+    
+    def build_instance_options(options)
       @global_settings.merge(options)
     end
     

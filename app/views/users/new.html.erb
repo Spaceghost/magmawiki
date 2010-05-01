@@ -10,6 +10,6 @@
 	<%= f.label :password_confirmation, (I18n.t 'user.pass_confirm') + ":" -%>
 	<%= f.password_field :password_confirmation -%>
 	<!-- TODO: this reeks. -->
-	<%= CAPTCHA.recaptcha_tags -%>
+	<%= CAPTCHA.captcha_tags -%>
 	<%= f.submit "Register" -%>
 <% end %>
