@@ -29,15 +29,15 @@ module Captcha
     end
     
     def captcha_tags(options = {})
-      options = verify_options(options)
-      output = ""
+      options = verify_options(options, :public_key)
+      output = "<!-- recaptcha disabled -->"
       output = html_tags(options) if self.enabled?
       
       return output
     end
 
     def verify_recaptcha(options = {})
-      options = verify_options(options)
+      options = verify_options(options, :private_key)
       output = true
       output = true if self.enabled?
       
@@ -45,10 +45,10 @@ module Captcha
     end
 
   private
-    def verify_options(options)
+    def verify_options(options, key)
       _options = @global_settings.merge(options)
-      raise Captcha::Error, "Missing private key" if @global_settings[:private_key].nil?
-      raise Captcha::Error, "Missing public key" if @global_settings[:public_key].nil?
+      (raise Captcha::Error, "Missing private key" if @global_settings[:private_key].nil?) if key == :private_key
+      (raise Captcha::Error, "Missing public key" if @global_settings[:public_key].nil?) if key == :public_key
     end
     
     def build_instance_options(options)
