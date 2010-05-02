@@ -40,5 +40,5 @@ undef recursively_symbolize_keys
 
 I18n.default_locale = MAGMAWIKI_CONFIG[:locale][:default].to_sym
 I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
-CAPTCHA = Captcha::Recaptcha.new(MAGMAWIKI_CONFIG[:captcha])
+CAPTCHA = Captcha::Captcha.new(MAGMAWIKI_CONFIG[:captcha])
 
