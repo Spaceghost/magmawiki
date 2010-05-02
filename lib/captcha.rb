@@ -32,15 +32,16 @@ module Captcha
       options = verify_options(options)
       output = ""
       output = html_tags(options) if self.enabled?
+      
       return output
     end
 
     def verify_recaptcha(options = {})
-      if self.enabled?
-        
-      else
-        return true
-      end
+      options = verify_options(options)
+      output = true
+      output = true if self.enabled?
+      
+      return output
     end
 
   private
