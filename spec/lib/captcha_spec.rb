@@ -29,9 +29,16 @@ describe Captcha::Recaptcha do # TODO: is there a better way to do this?
     end
     
     it "should return well formed html" do
-      recaptcha = Captcha::Recaptcha.new({:public_key => "something", :enabled => true})
-      output = recaptcha.captcha_tags #this line is failing for some unknown reason.
-
+      settings = Hash.new
+      settings = { :enabled      => true,
+                  :public_key   => "something",
+                  :private_key  => "something"
+                 }
+      recaptcha = Captcha::Recaptcha.new(settings)
+      recaptcha.should_not be_nil
+      recaptcha.captcha_tags.should_not be_nil
+      output = recaptcha.captcha_tags
+      
       validated_output = Nokogiri::HTML output
       validated_output.errors.should be_empty
     end
